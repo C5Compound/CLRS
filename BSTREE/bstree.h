@@ -1,20 +1,20 @@
+/**
+*二叉查找树实现
+*/
 #pragma once
 #include <stdlib.h>
 #include <gvc.h>
 using namespace std;
 
-typedef struct node
+struct node
 {
 public:
     int key;
     int data;
     node *left, *right, *parent;
 
-} node;
+};
 
-/**
-*二叉查找树实现
-*/
 class TREE
 {
 private:

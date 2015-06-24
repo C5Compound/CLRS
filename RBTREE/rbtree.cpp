@@ -1,10 +1,12 @@
 #include "rbtree.h"
 
+node* RBTREE::NIL = (node*)malloc(sizeof(node));
+
+
 RBTREE::RBTREE()
 {
-    NIL = (node*)malloc(sizeof(node));
-    memset(NIL, 0, sizeof(node));
-    NIL->color = black;
+    memset(RBTREE::NIL, 0, sizeof(node));
+    RBTREE::NIL->color = black;
     ROOT = NIL;
 }
 
@@ -16,9 +18,8 @@ RBTREE::~RBTREE()
 
 RBTREE::RBTREE(int list[], int length)
 {
-    NIL = (node*)malloc(sizeof(node));
-    memset(NIL, 0, sizeof(node));
-    NIL->color = black;
+    memset(RBTREE::NIL, 0, sizeof(node));
+    RBTREE::NIL->color = black;
     ROOT = NIL;
     for (int i = 0; i < length; i++) {
         node *it = (node*)malloc(sizeof(node));
@@ -340,7 +341,7 @@ void RBTREE::printTree(Agraph_t *graph, Agnode_t *pre, node *root)
         return;
     }
     Agnode_t *here;
-    char buff[5] = { 0 };
+    char buff[6] = { 0 };
     sprintf_s(buff, "%d", root->key);
     here = agnode(graph, buff, 1);
     // 颜色选项
@@ -352,17 +353,74 @@ void RBTREE::printTree(Agraph_t *graph, Agnode_t *pre, node *root)
     printTree(graph, here, root->right);
 }
 
-RBTREE* RBTREE::linkedIn(RBTREE &A, node* x, RBTREE &B)
+// 连接两颗红黑树，满足 key[A] <= key[x] <= key[B]
+void RBTREE::linkedIn(RBTREE &A, node* x, RBTREE &B)
 {
-    return NULL;
+    // 1.找出A中与B黑高相等的最大元素
+    node *root = A.ROOT;
+    int bhB = B.getBlackHeight();
+    int bhNode = A.getBlackHeight();
+    while (true) {
+        if (bhNode == bhB) {
+            break;
+        }
+        if (root->color == black) {
+            bhNode -= 1;
+        }
+        if (root->right != NIL) {
+            root = root->right;
+        }
+        else {
+            root = root->left;
+        }
+    }
+    // 如果节点的右孩子为红节点，则将这个子节点作为所求的节点
+    root = (root->color == red && root->right != NIL) ? root->right : root;
+    // 2.构造新树
+    x->left = root;
+    x->right = B.ROOT;
+    x->parent = root->parent;
+    // 将x的颜色设置为红色
+    x->color = red;
+    if (root->parent->right == root) {
+        root->parent->right = x;
+    }
+    else {
+        root->parent->left = x;
+    }
+    root->parent = x;
+    B.ROOT->parent = x;
+    // 3.调整树
+    /**
+    * 这种情况下什么都不用做
+
+    if (x->left->color == black && x->parent->color == black) {
+        // 什么都不用做
+    }
+    */
+    if (x->left->color == black && x->parent->color == red) {
+        // 按插入红色节点x处理
+        A.insertFixup(x);
+    }
+    /**
+     * 由于当碰到红色节点时选择下移一个节点的做法
+     * 导致这种情况不会发生
+
+    if (x->left->color == red && x->parent->color == black) {
+        // 按插入红色节点x->left处理
+        A.insertFixup(x->left);
+    }
+    */
 }
 
-int RBTREE::getBH(node *root)
+// 取得黑高,黑高不包括出发的节点
+int RBTREE::getBlackHeight()
 {
+    node *root = ROOT;
     int height = 0;
-    while (root != NIL) {
-        height++;
+    while (root->right != NIL) {
+        height += root->right->color == black ? 1 : 0;
         root = root->right;
     }
-    return 0;
+    return height;
 }

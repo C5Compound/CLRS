@@ -9,7 +9,7 @@ using namespace std;
 
 enum COLOR{ black, red };
 
-typedef struct node
+struct node
 {
 public:
     int key;
@@ -17,16 +17,17 @@ public:
     COLOR color;
     node *left, *right, *parent;
 
-} node;
+};
+
 
 class RBTREE
 {
 private:
-    // 哨兵元素
-    node *NIL;
     // 释放数所占用的内存
     void freeTree(node*);
 public:
+    // 哨兵元素
+    static node *NIL;
     node *ROOT;
     RBTREE();
     ~RBTREE();
@@ -56,8 +57,11 @@ public:
     void deleteFixup(node*);
     // 把数输出成图片
     void printTree(Agraph_t *graph, Agnode_t *pre, node *root);
-    // 红黑树连接操作,满足 A < x < B
-    RBTREE* linkedIn(RBTREE &A, node* x, RBTREE &B);
+    /**
+     * 红黑树连接操作,满足 key[A] < key[x] < key[B]
+     * 13章 练习13-2
+     */
+    static void linkedIn(RBTREE &A, node* x, RBTREE &B);
     // 取得黑高
-    int getBH(node*);
+    int getBlackHeight();
 };
