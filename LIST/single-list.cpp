@@ -5,13 +5,18 @@
 */
 #include "single-list.h"
 
+List::List()
+{
+    HEAD = NULL;
+}
+
 List::List(int ls[], int length)
 {
     HEAD = NULL;
     for (int i = 0; i < length; i++) {
         node *it = (node*)calloc(1, sizeof(node));
         it->data = ls[i];
-        add(it);
+        insert(it);
     }
 }
 
@@ -20,10 +25,35 @@ List::~List()
     demolish(HEAD);
 }
 
-void List::add(node *it)
+void List::insert(node *it)
 {
     it->next = HEAD;
     HEAD = it;
+}
+
+bool List::removeAt(node *it)
+{
+    // 空链表返回
+    if (!HEAD) {
+        return false;
+    }
+    // 删除头部元素
+    if (it == HEAD) {
+        HEAD = HEAD->next;
+        free(it);
+        return true;
+    }
+    node *head = HEAD;
+    while (head->next && head->next != it) {
+        head = head->next;
+    }
+    // 无此节点
+    if (!head->next) {
+        return false;
+    }
+    head->next = head->next->next;
+    free(it);
+    return true;
 }
 
 void List::demolish(node *head)
@@ -67,13 +97,11 @@ void List::reverse_iter()
 
     node *pre = NULL;
     node *current = HEAD;
-    node *next = current->next;
 
-    while (next) {
+    while (current->next) {
         current->next = pre;
         pre = current;
-        current = next;
-        next = next->next;
+        current = current->next;
     }
     current->next = pre;
     HEAD = current;
@@ -88,4 +116,26 @@ void List::print()
         it = it->next;
     }
     cout << endl;
+}
+
+
+// 找中间元素
+pair<node*, int> List::search4center()
+{
+    // 空链表
+    if (!HEAD) {
+        return make_pair((node*)NULL, 0);
+    }
+    node *slow = HEAD;
+    node *fast = HEAD;
+    while (fast->next) {
+        fast = fast->next->next;
+        // 元素总数为双数
+        if (!fast) {
+            return make_pair(slow, 2);
+        }
+        slow = slow->next;
+    }
+    // 单数
+    return make_pair(slow, 1);
 }
