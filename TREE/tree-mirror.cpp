@@ -29,6 +29,7 @@ node* tree_mirror(node *root)
         return NULL;
     }
     node *it = (node*)malloc(sizeof(node));
+    it->data = root->data;
     it->left = tree_mirror(root->right);
     it->right = tree_mirror(root->left);
     return it;
