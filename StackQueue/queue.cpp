@@ -202,7 +202,7 @@ size_t ArrayQueue::Count()
 
 int main()
 {
-    ArrayQueue lq;
+    ListQueue lq;
     for (int i = 0; i < 30; i++) {
         lq.enqueue(i);
     }
