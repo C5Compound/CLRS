@@ -32,7 +32,10 @@ void heapbuild(int a[], int size)
 }
 
 // 败者树调整函数
-
+void ajustLosers(int a[], int i)
+{
+    int p = i / 2;
+}
 
 
 /**
