@@ -27,7 +27,7 @@ int k_merge()
 // 快排划分 升序
 int partition(int a[], int l, int r)
 {
-    int i = l, j = l;
+    int i = l, j = l + 1;
     static auto swap = [&](int p, int q){int k = p; p = q; q = k;};
     for (; j <= r; ++j) {
         if (a[j] < a[i]) {
