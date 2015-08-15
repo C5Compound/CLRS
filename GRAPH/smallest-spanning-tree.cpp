@@ -64,6 +64,10 @@ void Kruskal(vector<char> &vertexs, vector<Edge> &v2emap)
     }
 }
 
+/**
+ *
+ *
+ */
 void Prim(vector<vector<int>> &graph)
 {
     
