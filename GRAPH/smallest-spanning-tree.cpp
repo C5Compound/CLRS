@@ -128,7 +128,7 @@ void Prim(vector<char> &vertexs, vector<vector<int>> &graph)
         }
     }
 }
-    
+
 void testPrim()
 {
     char v[9] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' };
@@ -150,7 +150,7 @@ void testPrim()
 }
 
 /**
- *  二叉堆实现
+ *  基于数组的二叉堆实现
  */
 
 struct BinaryHeap
@@ -198,6 +198,7 @@ pair<int, int> BinaryHeap::extractMin()
     minHeapify(1);
     return ret;
 }
+
 /**
  *  基于priority queue的版本
  *  与基于vector的版本不同的地方在于：寻找距离MST最小距离的点用优先队列实现
@@ -205,32 +206,36 @@ pair<int, int> BinaryHeap::extractMin()
  */
 struct node
 {
-    int u, key;
-    node(int iu, int ikey) : u(iu), key(ikey) {};
-    bool operator < (const node &other) const {return other.key  < key;};
+    int u, w;
+    node(int iu, int iw) : u(iu), w(iw) {};
+    bool operator < (const node &other) const {return other.w  < w;};
 };
 
-void Prim(vector<char> &vertexs, vector<vector<pair<int, int>>> &adjs)
+// 如果要求输出所有的边，则需要像上面的版本一样，加入一个closest数组
+void Prim(vector<char> &vertexs, vector<vector<node>> &adjs)
 {
     vector<int> lowcost(adjs.size(), INT_MAX);
-    vector<bool> A(adjs,size(), true);
+    vector<bool> A(adjs.size(), true);
     priority_queue<node> Q;
     // 初始化
     A[0] = false;
+    printf("%c->", vertexs[0]);
     for (auto i : adjs[0]) {
-        lowcost[i.first] = i.second;
-        Q.push(node(i.first, i.second));
+        lowcost[i.u] = i.w;
+        Q.push(node(i.u, i.w));
     }
     while (!Q.empty()) {
         node it = Q.top();
         Q.pop();
-        if (!A[it.first]) {
+        if (!A[it.u]) {
             continue;
         }
-        for (auto i : adjs[it.first]) {
-            if (A[i.first] && i.second < lowcost[i.first]) {
-                lowcost[i.first] = i.second;
-                Q.push(node(i.first, i.second));
+        A[it.u] = false;
+        printf("%c->", vertexs[it.u]);
+        for (auto i : adjs[it.u]) {
+            if (A[i.u] && i.w < lowcost[i.u]) {
+                lowcost[i.u] = i.w;
+                Q.push(node(i.u, i.w));
             }
         }
     }
