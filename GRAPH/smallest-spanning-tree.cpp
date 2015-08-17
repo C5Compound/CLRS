@@ -91,12 +91,13 @@ void testKruskal()
 }
 
 /**
- *  用数组实现的版本
+ *  用vector实现的版本,可直接修改为数组实现
  *  输入为邻接矩阵，不相连的节点权值为INT_MAX
+ *  复杂度为O(V^2)
  */
 void Prim(vector<char> &vertexs, vector<vector<int>> &graph)
 {
-    // lowcost和closest数组中分别保存到点i距离最近的点及其距离
+    // lowcost和closest数组中分别保存点i到MST的最小距离及对应的MST中的点
     vector<int> lowcost(graph.size()), closest(graph.size());
     // 如果点已经出现在MST中，则置为false
     vector<bool> A(graph.size(), true);
@@ -149,6 +150,88 @@ void testPrim()
 }
 
 /**
- *  基于优先队列实现的版本
- *  输入为邻接矩阵，不相连的节点权值为INT_MAX
+ *  二叉堆实现
  */
+
+struct BinaryHeap
+{
+    int size;
+    vector<pair<int, int>> ls;
+    BinaryHeap() : size(0) {ls.push_back(make_pair(0, 0));};
+    void minHeapify(int i);
+    void heapInsert(pair<int, int> node);
+    void decreaseKey(int i, int key);
+    pair<int, int> extractMin()
+};
+
+void BinaryHeap::minHeapify(int i)
+{
+    int l = i << 1, r = i << 1 + 1, m;
+    m = l <= size && ls[l].second < ls[i].second ? l : i;
+    m = r <= size && ls[r].second < ls[m].second ? r : m;
+    if (m != i) {
+        swap(ls[i], ls[m]);
+        minHeapify(m);
+    }
+}
+
+void BinaryHeap::heapInsert(pair<int, int> node)
+{
+    ++size;
+    ls.push_back(node);
+    decreaseKey(size, node.second);
+}
+
+void BinaryHeap::decreaseKey(int i, int key)
+{
+    ls[i].second = key;
+    while (i > 1 && ls[i].second < ls[i / 1].second) {
+        swap(ls[i], ls[i / 2]);
+        i /= 2;
+    }
+}
+
+pair<int, int> BinaryHeap::extractMin()
+{
+    pair<int, int> ret = ls[1];
+    ls[1] = ls[size--];
+    minHeapify(1);
+    return ret;
+}
+/**
+ *  基于priority queue的版本
+ *  与基于vector的版本不同的地方在于：寻找距离MST最小距离的点用优先队列实现
+ *  输入为邻接表，所以更新点到MST的距离时只更新对应表中的点
+ */
+struct node
+{
+    int u, key;
+    node(int iu, int ikey) : u(iu), key(ikey) {};
+    bool operator < (const node &other) const {return other.key  < key;};
+};
+
+void Prim(vector<char> &vertexs, vector<vector<pair<int, int>>> &adjs)
+{
+    vector<int> lowcost(adjs.size(), INT_MAX);
+    vector<bool> A(adjs,size(), true);
+    priority_queue<node> Q;
+    // 初始化
+    A[0] = false;
+    for (auto i : adjs[0]) {
+        lowcost[i.first] = i.second;
+        Q.push(node(i.first, i.second));
+    }
+    while (!Q.empty()) {
+        node it = Q.top();
+        Q.pop();
+        if (!A[it.first]) {
+            continue;
+        }
+        for (auto i : adjs[it.first]) {
+            if (A[i.first] && i.second < lowcost[i.first]) {
+                lowcost[i.first] = i.second;
+                Q.push(node(i.first, i.second));
+            }
+        }
+    }
+}
