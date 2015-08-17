@@ -147,6 +147,18 @@ void testPrim()
         graph.push_back(vector<int>(&table[i][0], &table[i + 1][0]));
     }
     Prim(vertexs, graph);
+/*  另一个版本的测试  
+    vector<vector<node>> adjs;
+    for (int i = 0; i < 9; ++i) {
+        vector<node> tmp;
+        for (int j = 0; j < 9; ++j) {
+            if (table[i][j] != INT_MAX) {
+                tmp.push_back(node(j, table[i][j]));
+            }
+        }
+        adjs.push_back(tmp);
+    }
+    Prim(vertexs, adjs);*/
 }
 
 /**
@@ -234,7 +246,7 @@ void Prim(vector<char> &vertexs, vector<vector<node>> &adjs)
         printf("%c->", vertexs[it.u]);
         for (auto i : adjs[it.u]) {
             if (A[i.u] && i.w < lowcost[i.u]) {
-                lowcost[i.u] = i.w;
+                lowcost[i.u] = i.w; 
                 Q.push(node(i.u, i.w));
             }
         }
