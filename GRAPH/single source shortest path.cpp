@@ -74,5 +74,44 @@ void testBellmanFord()
 }
 
 // 有向无回路图的单源最短路径算法
+void DFS(vector<vector<node>> &adjs, vector<bool> &visited, vector<int> &topology, int u)
+{
+    if (visited[u]) {
+        return;
+    }
+    for (auto i : adjs[u]) {
+        DFS(adjs, visited, topology, i);
+    }
+    visited[u] = true;
+    topology.push_back(u);
+}
+// 拓扑排序
+void TopologySort(vector<vector<node>> &adjs, vector<int> &topology)
+{
+    vector<bool> visited(adjs.size(), false);
+    for (int i = 0; i < adjs.size(); ++i) {
+        if (!visited[i]) {
+            DFS(adjs, visited, topology, i);
+        }
+    }
+}
+
+void DagShortestPaths(vector<char> &vertexs, vector<vector<node>> &adjs)
+{
+    vector<int> dis(adjs.size(), INT_MAX), pa(adjs.size(), 0), topology;
+    DFS(adjs, topology);
+    dis[0] = 0;
+    for (int i = topology.size() - 1; i >= 0; --i) {
+        for (auto j : adjs[i]) {
+            // 松弛过程，带无穷判断
+            if (dis[i] < INT_MAX && dis[j.v] > dis[i] + j.w) {
+                dis[j.v] = dis[i] + j.w;
+                pa[j.v] = i;
+            }
+        }
+    }
+    // 格式化输出结果
+    
+}
 
 // Dijkstra算法
