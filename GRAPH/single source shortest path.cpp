@@ -53,33 +53,33 @@ bool BellmanFord(vector<char> &vertexs, vector<vector<node>> &adjs, int s)
     return true;
 }
 
-void testBellmanFord()
-{
-    char v[5] = { 's', 't', 'x', 'y', 'z' };
-    vector<char> vertexs(v, v + 5);
-    vector<vector<node>> adjs;
-    vector<node> tmp;
-    tmp.push_back(node(1, 6));
-    tmp.push_back(node(3, 7));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(2, 5));
-    tmp.push_back(node(3, 8));
-    tmp.push_back(node(4, -4));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(1, -2));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(2, -3));
-    tmp.push_back(node(4, 9));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(0, 2));
-    tmp.push_back(node(2, 7));
-    adjs.push_back(tmp);
-    BellmanFord(vertexs, adjs, 0);
-}
+// void testBellmanFord()
+// {
+//     char v[5] = { 's', 't', 'x', 'y', 'z' };
+//     vector<char> vertexs(v, v + 5);
+//     vector<vector<node>> adjs;
+//     vector<node> tmp;
+//     tmp.push_back(node(1, 6));
+//     tmp.push_back(node(3, 7));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(2, 5));
+//     tmp.push_back(node(3, 8));
+//     tmp.push_back(node(4, -4));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(1, -2));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(2, -3));
+//     tmp.push_back(node(4, 9));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(0, 2));
+//     tmp.push_back(node(2, 7));
+//     adjs.push_back(tmp);
+//     BellmanFord(vertexs, adjs, 0);
+// }
 
 // 有向无回路图的单源最短路径算法
 void DFS(vector<vector<node>> &adjs, vector<bool> &visited, vector<int> &topology, int u)
@@ -121,35 +121,35 @@ void DagShortestPaths(vector<char> &vertexs, vector<vector<node>> &adjs, int s)
     formate(vertexs, dis, pa, s);
 }
 
-void testDagShortestPaths()
-{
-    char v[6] = {'s', 'r', 't', 'x', 'y', 'z'};
-    vector<char> vertexs(v, v + 6);
-    vector<vector<node>> adjs;
-    vector<node> tmp;
-    tmp.push_back(node(2, 2));
-    tmp.push_back(node(3, 6));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(0, 5));
-    tmp.push_back(node(2, 3));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(3, 7));
-    tmp.push_back(node(4, 4));
-    tmp.push_back(node(5, 2));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(4, -1));
-    tmp.push_back(node(5, 1));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(5, -2));
-    adjs.push_back(tmp);
-    tmp.clear();
-    adjs.push_back(tmp);
-    DagShortestPaths(vertexs, adjs, 0);
-}
+// void testDagShortestPaths()
+// {
+//     char v[6] = {'s', 'r', 't', 'x', 'y', 'z'};
+//     vector<char> vertexs(v, v + 6);
+//     vector<vector<node>> adjs;
+//     vector<node> tmp;
+//     tmp.push_back(node(2, 2));
+//     tmp.push_back(node(3, 6));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(0, 5));
+//     tmp.push_back(node(2, 3));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(3, 7));
+//     tmp.push_back(node(4, 4));
+//     tmp.push_back(node(5, 2));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(4, -1));
+//     tmp.push_back(node(5, 1));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(5, -2));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     adjs.push_back(tmp);
+//     DagShortestPaths(vertexs, adjs, 0);
+// }
 
 // Dijkstra算法，基于最小优先级队列
 void dijkstra(vector<char> &vertexs, vector<vector<node>> &adjs, int s)
@@ -178,30 +178,30 @@ void dijkstra(vector<char> &vertexs, vector<vector<node>> &adjs, int s)
     formate(vertexs, dis, pa, s);
 }
 
-void testDijkstra()
-{
-    char v[5] = { 's', 't', 'x', 'y', 'z' };
-    vector<char> vertexs(v, v + 5);
-    vector<vector<node>> adjs;
-    vector<node> tmp;
-    tmp.push_back(node(1, 10));
-    tmp.push_back(node(3, 5));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(2, 1));
-    tmp.push_back(node(3, 2));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(4, 4));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(1, 3));
-    tmp.push_back(node(2, 9));
-    tmp.push_back(node(4, 2));
-    adjs.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(node(0, 7));
-    tmp.push_back(node(2, 6));
-    adjs.push_back(tmp);
-    dijkstra(vertexs, adjs, 0);
-}
+// void testDijkstra()
+// {
+//     char v[5] = { 's', 't', 'x', 'y', 'z' };
+//     vector<char> vertexs(v, v + 5);
+//     vector<vector<node>> adjs;
+//     vector<node> tmp;
+//     tmp.push_back(node(1, 10));
+//     tmp.push_back(node(3, 5));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(2, 1));
+//     tmp.push_back(node(3, 2));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(4, 4));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(1, 3));
+//     tmp.push_back(node(2, 9));
+//     tmp.push_back(node(4, 2));
+//     adjs.push_back(tmp);
+//     tmp.clear();
+//     tmp.push_back(node(0, 7));
+//     tmp.push_back(node(2, 6));
+//     adjs.push_back(tmp);
+//     dijkstra(vertexs, adjs, 0);
+// }
