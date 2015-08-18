@@ -154,11 +154,12 @@ void testDagShortestPaths()
 // Dijkstra算法，基于最小优先级队列
 void dijkstra(vector<char> &vertexs, vector<vector<node>> &adjs, int s)
 {
-    vector<int> dis(adjs.size(), INT_MAX), pa(adjs.size());
+    vector<int> dis(adjs.size(), INT_MAX), pa(adjs.size(), s);
     vector<bool> visited(adjs.size(), false);
     priority_queue<node> Q;
     // 初始化
-    Q.push(s, 0);
+    Q.push(node(s, 0));
+    dis[s] = 0;
     while (!Q.empty()) {
         node it = Q.top();
         Q.pop();
@@ -175,4 +176,32 @@ void dijkstra(vector<char> &vertexs, vector<vector<node>> &adjs, int s)
         }
     }
     formate(vertexs, dis, pa, s);
+}
+
+void testDijkstra()
+{
+    char v[5] = { 's', 't', 'x', 'y', 'z' };
+    vector<char> vertexs(v, v + 5);
+    vector<vector<node>> adjs;
+    vector<node> tmp;
+    tmp.push_back(node(1, 10));
+    tmp.push_back(node(3, 5));
+    adjs.push_back(tmp);
+    tmp.clear();
+    tmp.push_back(node(2, 1));
+    tmp.push_back(node(3, 2));
+    adjs.push_back(tmp);
+    tmp.clear();
+    tmp.push_back(node(4, 4));
+    adjs.push_back(tmp);
+    tmp.clear();
+    tmp.push_back(node(1, 3));
+    tmp.push_back(node(2, 9));
+    tmp.push_back(node(4, 2));
+    adjs.push_back(tmp);
+    tmp.clear();
+    tmp.push_back(node(0, 7));
+    tmp.push_back(node(2, 6));
+    adjs.push_back(tmp);
+    dijkstra(vertexs, adjs, 0);
 }
