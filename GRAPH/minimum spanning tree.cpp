@@ -230,12 +230,7 @@ void Prim(vector<char> &vertexs, vector<vector<node>> &adjs)
     vector<bool> A(adjs.size(), true);
     priority_queue<node> Q;
     // 初始化
-    A[0] = false;
-    printf("%c->", vertexs[0]);
-    for (auto i : adjs[0]) {
-        lowcost[i.u] = i.w;
-        Q.push(node(i.u, i.w));
-    }
+    Q.push(node(0, 0));
     while (!Q.empty()) {
         node it = Q.top();
         Q.pop();

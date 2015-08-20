@@ -173,7 +173,7 @@ void dijkstra(vector<char> &vertexs, vector<vector<node>> &adjs, int s)
                 pa[i.v] = it.v;
                 Q.push(node(i.v, dis[i.v]));
             }
-        }
+        } 
     }
     formate(vertexs, dis, pa, s);
 }
