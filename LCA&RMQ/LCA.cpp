@@ -97,7 +97,7 @@ void UnionSet(int x, int y)
 int ancestor[MAX_SET];
 bool visited[MAX_SET];
 
-void TarjanLCA(int u)
+TarjanLCA(u)
 {
     MakeSet(u);
     ancestor[FindSet(u)] = u;
@@ -105,8 +105,8 @@ void TarjanLCA(int u)
     for each child v of u in T:
         TarjanLCA(v)
         UnionSet(u, v)
-        ancestor[FindSet(u)] = u;
-    visited[u] = true;
+        ancestor[FindSet(u)] = u
+    visited[u] = true
     // 输出所有的LCA
     for each v that [u, v] in P:
         if visited[v] is true
