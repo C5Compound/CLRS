@@ -14,6 +14,7 @@ node* trieInitial()
     return new node();
 }
 
+// 插入函数
 void trieInsert(node *trie, const char *src)
 {
     if (src == NULL) {
@@ -29,9 +30,10 @@ void trieInsert(node *trie, const char *src)
     trieInsert(trie->next[*src - 'a'], src + 1);
 }
 
+// 在数中查询单词
 node* trieFind(node *trie, const char *src)
 {
-    if (src == NULL ) {
+    if (src == NULL) {
         return NULL;
     }
     if (*src == '\0' || trie == NULL) {
@@ -40,6 +42,7 @@ node* trieFind(node *trie, const char *src)
     return trieFind(trie->next[*src - 'a'], src + 1);
 }
 
+// 释放内存
 void trieFree(node *trie) {
     if (trie == NULL) {
         return;
@@ -50,6 +53,7 @@ void trieFree(node *trie) {
     delete trie;
 }
 
+// 只对计数值减1而不删除节点
 void trieDelete(node *trie, const char *src)
 {
     node *toDel = trieFind(trie, src);
@@ -58,7 +62,8 @@ void trieDelete(node *trie, const char *src)
     }
     toDel->count = max(0, toDel->count - 1);
 }
-// 先序遍历
+
+// 先序遍历输出所有的单词和词频
 void trieTravel(node *trie, string path)
 {
     if (trie->count > 0) {
@@ -70,3 +75,21 @@ void trieTravel(node *trie, string path)
         }
     }
 }
+
+// for test
+/*int main()
+{
+    node *trie = trieInitial();
+    const char *srr[13] = { "edit", "your", "feed", "by", "updating", "the", "users", "you", "follow", "and", "repositories", "you", "watch" };
+    for (int i = 0; i < 13; ++i) {
+        trieInsert(trie, srr[i]);
+    }
+    trieTravel(trie, string(""));
+    printf("\n");
+    trieDelete(trie, "updating");
+    trieDelete(trie, "and");
+    trieInsert(trie, "github");
+    trieTravel(trie, string(""));
+    trieFree(trie);
+    return 0;
+}*/
